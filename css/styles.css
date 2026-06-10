@@ -12,7 +12,7 @@
   --accent-soft:#c4785e;
   --line:rgba(100,80,60,0.15);
   --page-w:min(92vw,560px);
-  --page-h:min(88vh,720px);
+  --page-h:min(82vh,720px);
 }
 
 html,body{
@@ -38,15 +38,16 @@ html,body{
 
   max-width:100%;
   max-height:100%;
+  margin:auto;
 }
 
 @media(max-width:768px){
 
   :root{
 
-    --page-w:95vw;
+    --page-w:min(92vw,560px);
+    --page-h:min(88dvh,720px);
 
-    --page-h:88vh;
   }
 
 }
@@ -290,61 +291,65 @@ html,body{
 }
 
 /* ───────────────────────────── */
-/* MUSIC PLAYER PREMIUM */
-/* ───────────────────────────── */
-
-/* ───────────────────────────── */
-/* MINI PLAYER */
+/* REPRODUCTOR DESPLEGABLE */
 /* ───────────────────────────── */
 
 .music-player{
 
   position:fixed;
 
-  right:14px;
-  bottom:14px;
+  left:12px;
+  bottom:12px;
+  right:auto;
 
-  width:260px;
-
-  padding:10px 12px;
+  width:240px;
 
   border-radius:16px;
 
   background:
     linear-gradient(
       135deg,
-      rgba(255,255,255,.12),
-      rgba(255,255,255,.04)
+      rgba(255,255,255,.16),
+      rgba(255,255,255,.05)
     );
 
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
 
   border:1px solid rgba(255,255,255,.08);
 
   box-shadow:
-    0 8px 24px rgba(0,0,0,.18);
+    0 8px 24px rgba(0,0,0,.22);
+
+  overflow:hidden;
 
   z-index:9999;
 
   font-family:'Inter',sans-serif;
 
-  transition:.25s ease;
+  transition:
+    max-height .35s ease,
+    width .35s ease,
+    background .25s ease;
 }
 
-.music-player:hover{
+/* Estado cerrado */
 
-  transform:translateY(-2px);
+.music-player.collapsed{
 
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255,255,255,.16),
-      rgba(255,255,255,.06)
-    );
+  max-height:44px;
 }
 
-.music-header{
+/* Estado abierto */
+
+.music-player:not(.collapsed){
+
+  max-height:220px;
+}
+
+/* Cabecera */
+
+.music-toggle{
 
   display:flex;
 
@@ -352,25 +357,35 @@ html,body{
 
   gap:8px;
 
-  margin-bottom:8px;
+  padding:12px;
+
+  cursor:pointer;
+
+  user-select:none;
+}
+
+.music-toggle:hover{
+
+  background:
+    rgba(255,255,255,.05);
 }
 
 .music-icon{
 
   color:var(--accent-soft);
 
-  font-size:.9rem;
+  font-size:.95rem;
+
+  flex-shrink:0;
 }
 
 #trackTitle{
 
-  color:#f2e7d8;
+  color:#efe5d6;
 
   font-size:.78rem;
 
   font-weight:500;
-
-  letter-spacing:.03em;
 
   overflow:hidden;
 
@@ -378,6 +393,24 @@ html,body{
 
   text-overflow:ellipsis;
 }
+
+/* Contenido desplegable */
+
+.music-content{
+
+  padding:0 12px 12px;
+
+  transition:.25s;
+}
+
+.music-player.collapsed .music-content{
+
+  opacity:0;
+
+  pointer-events:none;
+}
+
+/* Botones */
 
 .music-controls{
 
@@ -387,7 +420,7 @@ html,body{
 
   gap:8px;
 
-  margin-bottom:8px;
+  margin-bottom:10px;
 }
 
 .music-controls button{
@@ -399,29 +432,33 @@ html,body{
 
   border-radius:50%;
 
+  cursor:pointer;
+
   background:
     rgba(255,255,255,.08);
 
-  color:#f5efe7;
-
-  cursor:pointer;
+  color:#f4ece2;
 
   transition:.2s;
 }
 
 .music-controls button:hover{
 
+  transform:scale(1.08);
+
   background:
     rgba(255,255,255,.18);
-
-  transform:scale(1.08);
 }
 
 #playBtn{
 
   width:40px;
   height:40px;
+
+  font-size:1rem;
 }
+
+/* Barra progreso */
 
 .progress-container{
 
@@ -431,27 +468,30 @@ html,body{
 
   gap:6px;
 
-  margin-bottom:8px;
+  margin-bottom:10px;
 }
 
 .progress-container span{
 
-  color:#d6c7b5;
+  min-width:32px;
+
+  text-align:center;
 
   font-size:.65rem;
 
-  min-width:32px;
+  color:#d8cab8;
 }
 
-#progress,
-#volume{
+#progress{
+
+  flex:1;
 
   accent-color:var(--accent-soft);
 
   cursor:pointer;
-
-  height:3px;
 }
+
+/* Volumen */
 
 .volume-container{
 
@@ -461,7 +501,7 @@ html,body{
 
   gap:8px;
 
-  color:#d6c7b5;
+  color:#d8cab8;
 
   font-size:.75rem;
 }
@@ -473,24 +513,29 @@ html,body{
   accent-color:var(--accent-soft);
 }
 
-.volume-container input,
-#progress{
+/* Sliders */
+
+#progress,
+#volume{
 
   height:4px;
 }
+
+/* Mobile */
 
 @media(max-width:768px){
 
   .music-player{
 
-    width:220px;
+    width:190px;
 
     right:8px;
     bottom:8px;
+  }
 
-    padding:8px 10px;
+  .music-player:not(.collapsed){
 
-    opacity:.9;
+    width:220px;
   }
 
 }

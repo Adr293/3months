@@ -278,7 +278,10 @@ const tracks = [
 
 ];
 
-let trackIndex = 0;
+let trackIndex =
+  Number(
+    localStorage.getItem('lastTrack')
+  ) || 0;
 let playing = false;
 
 const player = document.getElementById('bgMusic');
@@ -304,13 +307,45 @@ function loadTrack(index){
   trackTitle.textContent =
     tracks[index].title;
 
+  localStorage.setItem(
+    'lastTrack',
+    index
+  );
+
 }
 
 loadTrack(trackIndex);
 
-player.volume = volume.value;
+const savedTime =
+  localStorage.getItem('songTime');
 
-/* Play / Pause */
+player.addEventListener(
+  'loadedmetadata',
+  ()=>{
+
+    if(savedTime){
+
+      player.currentTime =
+        Number(savedTime);
+
+    }
+
+});
+
+const savedVolume =
+  localStorage.getItem('volume');
+
+if(savedVolume !== null){
+
+  player.volume = savedVolume;
+
+  volume.value = savedVolume;
+
+}else{
+
+  player.volume = volume.value;
+
+}
 
 playBtn.addEventListener('click',()=>{
 
@@ -383,15 +418,22 @@ player.addEventListener('ended',()=>{
 player.addEventListener('timeupdate',()=>{
 
   const percent =
-    (player.currentTime / player.duration) * 100;
+    (player.currentTime /
+    player.duration) * 100;
 
-  progress.value = percent || 0;
+  progress.value =
+    percent || 0;
 
   currentTimeEl.textContent =
     formatTime(player.currentTime);
 
   durationEl.textContent =
     formatTime(player.duration);
+
+  localStorage.setItem(
+    'songTime',
+    player.currentTime
+  );
 
 });
 
@@ -410,6 +452,11 @@ progress.addEventListener('input',()=>{
 volume.addEventListener('input',()=>{
 
   player.volume = volume.value;
+
+  localStorage.setItem(
+    'volume',
+    volume.value
+  );
 
 });
 
@@ -431,5 +478,45 @@ function formatTime(sec){
   return `${min}:${seg}`;
 
 }
+
+/* ───────────────────────────── */
+/* Mini Player Desplegable */
+/* ───────────────────────────── */
+
+const musicPlayer =
+  document.getElementById('musicPlayer');
+
+const musicToggle =
+  document.getElementById('musicToggle');
+
+const savedState =
+  localStorage.getItem(
+    'playerCollapsed'
+  );
+
+if(savedState === 'false'){
+
+  musicPlayer.classList.remove(
+    'collapsed'
+  );
+
+}
+
+musicToggle.addEventListener(
+  'click',
+  ()=>{
+
+    musicPlayer.classList.toggle(
+      'collapsed'
+    );
+
+    localStorage.setItem(
+      'playerCollapsed',
+      musicPlayer.classList.contains(
+        'collapsed'
+      )
+    );
+
+});
 
 init();
