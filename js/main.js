@@ -1,13 +1,15 @@
-const MAX_LINES = 19;
+const MAX_LINES = 19;//19
 function paginatePages(pages){
- const result=[];
- pages.forEach(page=>{
-   if(page.type!=='poem'){ result.push(page); return; }
-   for(let i=0;i<page.lines.length;i+=MAX_LINES){
-     result.push({...page, lines:page.lines.slice(i,i+MAX_LINES), continued:i>0});
-   }
- });
- return result;
+  const result=[];
+  pages.forEach(page=>{
+    // Metemos el poema completo sin importar cuántas líneas tenga
+    if(page.type==='poem'){
+      result.push({...page, continued: false});
+    } else {
+      result.push(page);
+    }
+  });
+  return result;
 }
 const BOOK_PAGES = paginatePages(PAGES);
 
