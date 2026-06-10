@@ -290,57 +290,61 @@ html,body{
 
 }
 
+/* ───────────────────────────── */
+/* REPRODUCTOR DESPLEGABLE GLASS */
+/* ───────────────────────────── */
+
 .music-player{
 
   position:fixed;
 
   left:12px;
   bottom:12px;
-  right:auto;
 
-  width:240px;
+  width:280px;
 
-  border-radius:16px;
+  z-index:9999;
+
+  overflow:hidden;
+
+  border-radius:20px;
+
+  font-family:'Inter',sans-serif;
 
   background:
     linear-gradient(
-      135deg,
-      rgba(255,255,255,.16),
-      rgba(255,255,255,.05)
+      180deg,
+      rgba(34,28,24,.92),
+      rgba(18,15,13,.75)
     );
 
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
 
   border:1px solid rgba(255,255,255,.08);
 
   box-shadow:
-    0 8px 24px rgba(0,0,0,.22);
-
-  overflow:hidden;
-
-  z-index:9999;
-
-  font-family:'Inter',sans-serif;
+    0 12px 30px rgba(0,0,0,.35);
 
   transition:
     max-height .35s ease,
-    width .35s ease,
-    background .25s ease;
+    transform .25s ease;
 }
 
-/* Estado cerrado */
+.music-player:hover{
+  transform:translateY(-2px);
+}
+
+/* Cerrado */
 
 .music-player.collapsed{
-
-  max-height:44px;
+  max-height:50px;
 }
 
-/* Estado abierto */
+/* Abierto */
 
 .music-player:not(.collapsed){
-
-  max-height:220px;
+  max-height:260px;
 }
 
 /* Cabecera */
@@ -351,9 +355,9 @@ html,body{
 
   align-items:center;
 
-  gap:8px;
+  gap:10px;
 
-  padding:12px;
+  padding:14px 16px;
 
   cursor:pointer;
 
@@ -363,40 +367,44 @@ html,body{
 .music-toggle:hover{
 
   background:
-    rgba(255,255,255,.05);
+    rgba(255,255,255,.03);
 }
 
 .music-icon{
 
-  color:var(--accent-soft);
+  color:#d7a27d;
 
-  font-size:.95rem;
+  font-size:1rem;
 
   flex-shrink:0;
 }
 
 #trackTitle{
 
-  color:#efe5d6;
+  flex:1;
 
-  font-size:.78rem;
+  color:#f8efe3;
 
-  font-weight:500;
+  font-size:.82rem;
 
-  overflow:hidden;
+  font-weight:600;
+
+  letter-spacing:.03em;
 
   white-space:nowrap;
+
+  overflow:hidden;
 
   text-overflow:ellipsis;
 }
 
-/* Contenido desplegable */
+/* Contenido */
 
 .music-content{
 
-  padding:0 12px 12px;
+  padding:0 14px 14px;
 
-  transition:.25s;
+  transition:.25s ease;
 }
 
 .music-player.collapsed .music-content{
@@ -414,44 +422,57 @@ html,body{
 
   justify-content:center;
 
-  gap:8px;
+  align-items:center;
 
-  margin-bottom:10px;
+  gap:10px;
+
+  margin-bottom:12px;
 }
 
 .music-controls button{
 
-  width:34px;
-  height:34px;
-
   border:none;
 
-  border-radius:50%;
-
   cursor:pointer;
+
+  color:#fff;
 
   background:
     rgba(255,255,255,.08);
 
-  color:#f4ece2;
-
   transition:.2s;
+
+  border-radius:50%;
 }
 
 .music-controls button:hover{
 
-  transform:scale(1.08);
-
   background:
     rgba(255,255,255,.18);
+
+  transform:scale(1.08);
+}
+
+#prevTrack,
+#nextTrack{
+
+  width:36px;
+  height:36px;
 }
 
 #playBtn{
 
-  width:40px;
-  height:40px;
+  width:48px;
+  height:48px;
 
   font-size:1rem;
+
+  background:
+    linear-gradient(
+      135deg,
+      #b36d4f,
+      #8b4b36
+    );
 }
 
 /* Barra progreso */
@@ -462,27 +483,27 @@ html,body{
 
   align-items:center;
 
-  gap:6px;
+  gap:8px;
 
-  margin-bottom:10px;
+  margin-bottom:12px;
 }
 
 .progress-container span{
 
-  min-width:32px;
+  width:35px;
 
   text-align:center;
 
-  font-size:.65rem;
+  color:#d9c9b7;
 
-  color:#d8cab8;
+  font-size:.65rem;
 }
 
 #progress{
 
   flex:1;
 
-  accent-color:var(--accent-soft);
+  accent-color:#c98968;
 
   cursor:pointer;
 }
@@ -495,9 +516,9 @@ html,body{
 
   align-items:center;
 
-  gap:8px;
+  gap:10px;
 
-  color:#d8cab8;
+  color:#d9c9b7;
 
   font-size:.75rem;
 }
@@ -506,15 +527,42 @@ html,body{
 
   flex:1;
 
-  accent-color:var(--accent-soft);
+  accent-color:#c98968;
 }
-
-/* Sliders */
 
 #progress,
 #volume{
 
   height:4px;
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+  .music-player{
+
+    width:210px;
+
+    left:8px;
+    bottom:8px;
+  }
+
+  .music-player:not(.collapsed){
+
+    width:240px;
+  }
+
+  #trackTitle{
+
+    font-size:.72rem;
+  }
+
+  .music-toggle{
+
+    padding:12px;
+  }
+
 }
 
 /* Mobile */
