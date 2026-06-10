@@ -214,17 +214,6 @@ html, body {
   min-height: 0;
 }
 
-.poem-inner::after {
-  content: '';
-  position: absolute;
-  bottom: 55px; /* Justo arriba del footer */
-  left: 0;
-  right: 0;
-  height: 25px;
-  background: linear-gradient(to top, var(--page), transparent);
-  pointer-events: none; /* Permite clickear a través del gradiente */
-}
-
 /* Cabecera del poema inmune al scroll */
 .poem-num { 
   font-size: .68rem; 
