@@ -312,6 +312,8 @@ function loadTrack(index){
     index
   );
 
+  player.load();
+
 }
 
 loadTrack(trackIndex);
@@ -371,10 +373,9 @@ playBtn.addEventListener('click',()=>{
 
 nextTrack.addEventListener('click',()=>{
 
-  trackIndex++;
-
-  if(trackIndex >= tracks.length)
-    trackIndex = 0;
+  trackIndex =
+    (trackIndex + 1) %
+    tracks.length;
 
   loadTrack(trackIndex);
 
@@ -390,10 +391,9 @@ nextTrack.addEventListener('click',()=>{
 
 prevTrack.addEventListener('click',()=>{
 
-  trackIndex--;
-
-  if(trackIndex < 0)
-    trackIndex = tracks.length - 1;
+  trackIndex =
+    (trackIndex - 1 + tracks.length) %
+    tracks.length;
 
   loadTrack(trackIndex);
 
@@ -489,34 +489,39 @@ const musicPlayer =
 const musicToggle =
   document.getElementById('musicToggle');
 
-const savedState =
-  localStorage.getItem(
-    'playerCollapsed'
-  );
+if(musicPlayer && musicToggle){
 
-if(savedState === 'false'){
+  const savedState =
+    localStorage.getItem(
+      'playerCollapsed'
+    );
 
-  musicPlayer.classList.remove(
-    'collapsed'
-  );
+  if(savedState === 'false'){
 
-}
-
-musicToggle.addEventListener(
-  'click',
-  ()=>{
-
-    musicPlayer.classList.toggle(
+    musicPlayer.classList.remove(
       'collapsed'
     );
 
-    localStorage.setItem(
-      'playerCollapsed',
-      musicPlayer.classList.contains(
-        'collapsed'
-      )
-    );
+  }
 
-});
+  musicToggle.addEventListener(
+    'click',
+    ()=>{
+
+      musicPlayer.classList.toggle(
+        'collapsed'
+      );
+
+      localStorage.setItem(
+        'playerCollapsed',
+        musicPlayer.classList.contains(
+          'collapsed'
+        )
+      );
+
+    }
+  );
+
+}
 
 init();
